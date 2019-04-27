@@ -153,7 +153,7 @@ class ViewAllUsers extends React.Component{
                                                         <td>{ user.fullname }</td>
                                                         <td className="noCap">{ user.username }</td>
                                                         <td className="noCap">{ user.email }</td>
-                                                        <td>{ user.roles[0] }</td>
+                                                        <td>{ user.roles.includes('superadmin') ? 'Super Admin' : user.roles[0] }</td>
                                                         <td>
                                                             { user.allowAccess ? (
                                                                 <span className="text-success">Approved</span>
