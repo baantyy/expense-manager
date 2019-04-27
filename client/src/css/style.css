@@ -1,0 +1,389 @@
+/*Start Header*/
+.header{
+  background: #ffffff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-shadow: 0 0 15px -9px #6c6c6c;
+  z-index: 999;
+}
+.navbar{
+  padding: 10px 0;
+}
+.navbar-brand{
+  padding: 7px 0;
+  margin: 0;
+  height: 40px;
+  color: black !important;
+  font-weight: bold;
+}
+.navbar-brand img{
+  height: 100%;
+  margin: -5px 0 0 0;
+}
+.nav-link{
+  font-size: 15px;
+  color: #000000;
+}
+.nav-link:hover{
+  color: #000000;
+}
+.nav-link.logout{
+  background: #F44336;
+  color: white;
+  padding: 7px 15px !important;
+  border-radius: 4px;
+  margin: 0 0 0 5px;
+}
+button.navbar-toggler {
+  border: 1px solid #000000;
+  height: 35px;
+  width: 35px;
+  outline: 0;
+  padding: 6px 8px;
+  border-radius: 5px;
+}
+button.navbar-toggler span{
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #000000;
+  margin: 4px 0;
+}
+/*End Header*/
+
+/*start login + register*/
+.loginBlock {
+  position: relative;
+  min-height: 100vh;
+}
+.loginBlock > div{
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 0 20px 0 #dddddd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1e2536;
+  padding: 70px;
+  border-radius: 5px;
+}
+.loginBlock .right{
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+  padding: 0 30px 0 0;
+}
+.loginBlock h2{
+  font-size: 30px;
+  margin-bottom: 25px;
+  text-transform: capitalize;
+  color: white;
+  text-align: center;
+}
+.loginBlock input{
+  margin-bottom: 10px;
+  border-radius: 0;
+  box-shadow: none !important;
+  font-size: 14px;
+  padding: 10px 0;
+  height: auto;
+  border: 0 !important;
+  border-bottom: 1px solid white !important;
+  background: transparent !important;
+  color: white !important;
+}
+.loginBlock p{
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.loginBlock button{
+  font-size: 14px;
+  border-radius: 30px;
+  box-shadow: none !important;
+  background: white;
+  margin: 20px 0 0 0;
+  padding: 10px 30px;
+}
+.loginFooter{
+  text-align: center;
+}
+.loginFooter > a{
+  display: block;
+  margin: 20px 0 0 0;
+  color: white !important;
+  text-decoration: none;
+  font-size: 14px;
+}
+.formStatus{
+  text-transform: capitalize;
+}
+/*end login + register*/
+
+/*start expenses*/
+.expenses{
+  padding: 60px 0;
+}
+.expenses h1{ 
+  font-size: 20px;
+  margin: 5px 0;
+  color: white;
+}
+.expenses a.btn,
+.expenses button.btn{
+  font-size: 14px;
+  border: 0;
+  border-radius: 3px;
+  padding: 7px 15px;
+  box-shadow: none;
+}
+.expenses table{
+  margin: 15px 0 0;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+.expenses table .noCap{
+  text-transform: lowercase;
+}
+.expenses table a,
+.expenses table button{
+  border: 0;
+  background: transparent;
+  outline: 0;
+  font-size: 17px;
+  padding: 0 7px;
+  color: black !important;
+  display: inline-block;
+}
+.expenses table th{
+  white-space: nowrap;
+}
+.expenses table th:last-child,
+.expenses table td:last-child{
+  width: 130px;
+  text-align: center;
+}
+.expenses table th:first-child{
+  width: 80px;
+}
+.expenses input.search{
+  max-width: 350px;
+  display: block;
+  margin: 0 0 0 auto;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 7px 15px;
+  height: auto;
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+}
+.expenses ul{
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  width: 100%;
+}
+.expenses li{
+  display: inline-block;
+}
+.expenses li button{
+  border: 1px solid #dee2e6 !important;
+  border-radius: 0 !important;
+}
+.expenses li button.active{
+  background: #1e2536;
+  color: white;
+  border-color: #1e2536 !important;
+}
+.expenses .rightBtn{
+  text-align: right;
+}
+.expenses .rightBtn a{
+  font-size: 14px;
+  text-decoration: none;
+  padding: 7px 15px;
+  display: inline-block;
+  background: white;
+  color: #1e2536 !important;
+  font-weight: bold;
+  border-radius: 3px;
+  margin: 0 0 0 10px;
+}
+.form .label{
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+.form p{
+  font-size: 14px;
+  margin: 0;
+  padding: 10px 0;
+}
+.form .field{
+  border-radius: 0;
+  font-size: 14px;
+  padding: 10px 15px;
+  height: auto;
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+  margin-bottom: 15px;
+}
+.headTitle{
+  background: #1e2536;
+  padding: 20px 0;
+  margin: 0 0 30px;
+}
+.form .btn{
+  background: #1e2536;
+  color: white;
+}
+.spinner-border{
+  border-color: #1e2536;
+  border-right-color: transparent;
+}
+.dropDownSearch{
+  margin: -15px 0 0;
+  max-height: 117px;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  width: calc(100% - 30px);
+  top: 58px;
+  background: white;
+  z-index: 1;
+}
+.dropDownSearch li{
+  display: block;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ededed;
+  padding: 8px 15px;
+}
+.dropDownSearch li:hover{
+  background: #f4f4f4;
+}
+.selectedUser ul{
+  margin: 0 0 10px;
+}
+.selectedUser li{
+  border: 1px solid #ddd;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 0 5px 5px 0;
+}
+.selectedUser span{
+  display: inline-block;
+  margin: 0 0 0 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.selectedUser li:hover{
+  background: #f4f4f4;
+}
+.expenseView{
+  border: 1px solid #ddd;
+  padding: 30px;
+}
+.expenseView li{
+  display: block;
+  line-height: 35px;
+  font-size: 14px;
+}
+.expenseView b{
+  min-width: 130px;
+  display: inline-block;
+}
+form li.editCol {
+  border: 0;
+  width: 100%;
+  margin: 0;
+  padding: 10px 0;
+  background: white !important;
+}
+form li.editCol input {
+  width: auto;
+  margin: -15px 0 0 !important;
+  float: right;
+}
+form li.editCol span {
+  float: right;
+  margin: -15px 0 0;
+  padding: 11px;
+}
+.receiptImg{
+  margin-bottom: 10px;
+}
+.receiptImg img{
+  width: 100%;
+}
+/*end expense*/
+
+/*start responsive*/
+@media (max-width: 992px){  
+  .tableCover{
+    overflow: hidden;
+    overflow-x: scroll;
+  }
+  .expenseView {
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 576px){
+  .loginBlock > div {
+    position: static;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    padding: 50px;
+    margin: auto;
+  }
+  .loginBlock {
+    padding: 15px;
+  }
+  .loginBlock button {
+    padding: 5px 20px;
+  }
+  .nav-link {
+    font-size: 14px;
+    text-align: center;
+  }
+  .navbar-brand {
+    font-size: 16px;
+  }
+  .expenses h1 {
+    font-size: 15px;
+  } 
+  .expenses .rightBtn a {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+  .form .label {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  .form .field {
+    font-size: 13px;
+    padding: 10px;
+  }
+  .form p {
+    font-size: 13px;
+    padding: 0 0 10px 0;
+  }
+  .expenses a.btn, .expenses button.btn {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+  .expenseView li {
+    line-height: 30px;
+    font-size: 13px;
+  }
+  .expenseView b {
+    min-width: 75px;
+  }
+  .expenses table{
+    font-size: 13px;
+  }
+}
+/*end responsive*/
