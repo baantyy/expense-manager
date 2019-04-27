@@ -43,7 +43,7 @@ class ViewAllUsers extends React.Component{
         const value = e.target.value.toLowerCase()
         this.setState((prevState) => ({
             searchValue: value,
-            filteredUsers: prevState.users.filter(user => user.username.toLowerCase().includes(value))
+            filteredUsers: prevState.users.filter(user => user.fullname.toLowerCase().includes(value))
         }))
     }
 
@@ -139,7 +139,7 @@ class ViewAllUsers extends React.Component{
                                                     <tr key={user._id}>
                                                         <td>{ index + 1 }</td>
                                                         <td>{ user.fullname }</td>
-                                                        <td>{ user.username }</td>
+                                                        <td className="noCap">{ user.username }</td>
                                                         <td className="noCap">{ user.email }</td>
                                                         <td>{ user.roles[0] }</td>
                                                         <td>
