@@ -10,7 +10,8 @@ class EmployeeForm extends React.Component{
             receipt: expense.receipt,
             receiptImg: expense.receipt,
             currentExpense: {},
-            error: ''
+            error: '',
+            submitLoading: false
         }
     }
 
@@ -18,6 +19,10 @@ class EmployeeForm extends React.Component{
         e.preventDefault()
         const id = localStorage.getItem('id')
         const token = localStorage.getItem('token')
+
+        this.setState(() => ({
+            submitLoading: true
+        }))
 
         axios.get(`/api/expenses/${this.props.expense._id}`,{ headers: { 'x-auth': token }})
             .then(res => {
@@ -40,7 +45,8 @@ class EmployeeForm extends React.Component{
                     this.props.handleSubmit(formData)
                 }else{
                     this.setState(() => ({
-                        error: `total spent can't exceed ${this.props.expense.budget}`
+                        error: `total spent can't exceed ${this.props.expense.budget}`,
+                        submitLoading: false
                     }))
                 }
             })
@@ -101,7 +107,7 @@ class EmployeeForm extends React.Component{
                     </div>
                     <div className="col-md-4">
                         <button className="btn">
-                            { this.props.submitLoading ? <i className="fa fa-spin fa-spinner"></i> : 'Update Expense' }
+                            { this.props.submitLoading || this.state.submitLoading ? <i className="fa fa-spin fa-spinner"></i> : 'Update Expense' }
                         </button>
                     </div>
                 </div>
