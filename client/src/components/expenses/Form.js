@@ -22,7 +22,7 @@ class ExpenseForm extends React.Component{
             searchUserLoaded: false,
 
             categories: [],
-            role: props.role
+            roles: props.roles
         }
     }
 
@@ -112,7 +112,7 @@ class ExpenseForm extends React.Component{
                 { this.state.isLoaded ? 
                     <form className="form" onSubmit={this.handleSubmit}>
                         <div className="row">
-                            { this.state.role === 'admin' ? 
+                            { this.state.roles.includes('admin') ? 
                                 <React.Fragment>
                                     <div className="col-md-3">
                                         <label className="label">Employee</label>

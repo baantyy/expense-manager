@@ -19,19 +19,18 @@ class ViewAllExpenses extends React.Component{
                 css: '',
                 msg: ''
             },
-            role: ''
+            roles: JSON.parse(localStorage.getItem('roles'))
         }
     }
 
     componentWillMount(){
-        const role = localStorage.getItem('role')
-        this.setState(() => ({ role }))
-    }
+        document.title = "All Expenses"
+        !this.state.roles && this.props.history.push('/login')
+	}
 
     componentDidMount(){
-        document.title = "All Expenses"
         const token = localStorage.getItem('token')
-        const api = this.state.role === 'admin' ? '/api/admin/expenses' : '/api/expenses'
+        const api = this.state.roles.includes('admin') ? '/api/admin/expenses' : '/api/expenses'
         axios.get(api,{ headers: { 'x-auth': token }})
             .then(res => {
                 this.setState(() => ({
@@ -51,44 +50,48 @@ class ViewAllExpenses extends React.Component{
     }
 
     handleDelete = (id) => {
-        if(window.confirm("Are you sure") && this.state.role === 'admin'){
-            this.setState(() => ({
-                deleteLoading: {
-                    id, status: true
-                }
-            }))
-            const token = localStorage.getItem('token')
-            axios.delete(`/api/admin/expenses/${id}`,{
-                    headers: { 'x-auth': token }
-                })
-                .then(res => {
-                    if(res.data.expense){
-                        this.setState((prevState) => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            expenses: prevState.expenses.filter(expense => expense._id !== id),
-                            filteredExpenses: prevState.filteredExpenses.filter(expense => expense._id !== id)
-                        }))
-                    }else{
-                        this.setState(() => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            formMsg: {
-                                css: 'danger',
-                                msg: 'Something Went Wrong !'
-                            }
-                        }))
+        if(this.state.roles.includes('superadmin')){
+            if(window.confirm("Are you sure")){
+                this.setState(() => ({
+                    deleteLoading: {
+                        id, status: true
                     }
-                })
+                }))
+                const token = localStorage.getItem('token')
+                axios.delete(`/api/admin/expenses/${id}`,{
+                        headers: { 'x-auth': token }
+                    })
+                    .then(res => {
+                        if(res.data.expense){
+                            this.setState((prevState) => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                expenses: prevState.expenses.filter(expense => expense._id !== id),
+                                filteredExpenses: prevState.filteredExpenses.filter(expense => expense._id !== id)
+                            }))
+                        }else{
+                            this.setState(() => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                formMsg: {
+                                    css: 'danger',
+                                    msg: 'Something Went Wrong !'
+                                }
+                            }))
+                        }
+                    })
+            }
+        }else{
+            window.alert(`You don't have permission to delete`)
         }
     }
 
     render(){
-        const route = this.state.role === 'admin' ? '/admin/' : '/'
+        const route = this.state.roles.includes('admin') ? '/admin/' : '/'
         return (
             <div className="expenses">
                 <div className="headTitle">
@@ -110,9 +113,7 @@ class ViewAllExpenses extends React.Component{
                         <React.Fragment>
                             <div className="row">
                                 <div className="col-md-6">
-                                    {
-                                        this.state.formMsg.msg ? <p className={`text-${this.state.formMsg.css}`}>{ this.state.formMsg.msg }</p> : ''
-                                    }
+                                    { this.state.formMsg.msg ? <p className={`text-${this.state.formMsg.css}`}>{ this.state.formMsg.msg }</p> : '' }
                                 </div>
                                 <div className="col-md-6">
                                     <form>
@@ -136,51 +137,49 @@ class ViewAllExpenses extends React.Component{
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {
-                                            this.state.filteredExpenses.length ? (
-                                                this.state.filteredExpenses.map((expense, index) => {
-                                                    let amountSpent = 0
-                                                    expense.colleagues.map(colleague => {
-                                                        amountSpent = amountSpent + colleague.amountSpent
-                                                    })
-                                                    return (
-                                                    <tr key={expense._id}>
-                                                        <td>{ index + 1 }</td>
-                                                        <td>{ expense.user.fullname }</td>
-                                                        <td>{ expense.createdAt }</td>
-                                                        <td>{ expense.budget }</td>
-                                                        <td>{ amountSpent }</td>
-                                                        <td>{ expense.category.name }</td>
-                                                        <td>{ expense.reason }</td>
-                                                        <td>{ expense.isApproved ? <span className="text-success">Approved</span> : <span className="text-danger">Not Approved</span> }</td>
-                                                        <td>
-                                                            <Link title="Edit" to={`${route}expenses/edit/${expense._id}`}>
-                                                                <i className="fa fa-pencil text-dark"></i>
-                                                            </Link>
-                                                            <Link title="View" to={`${route}expenses/view/${expense._id}`}>
-                                                                <i className="fa fa-book text-primary"></i>
-                                                            </Link>
-                                                            { this.state.role === 'admin' ? 
-                                                                <button title="delete" 
-                                                                        onClick={() => {
-                                                                            this.handleDelete(expense._id)
-                                                                        }}
-                                                                >   
-                                                                {
-                                                                    this.state.deleteLoading.id === expense._id && this.state.deleteLoading.status ? <i className="fa fa-spin text-danger fa-spinner"></i> : <i className="fa fa-trash text-danger"></i>
-                                                                }
-                                                                </button> : ''
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                    )
+                                        { this.state.filteredExpenses.length ? (
+                                            this.state.filteredExpenses.map((expense, index) => {
+                                                let amountSpent = 0
+                                                expense.colleagues.map(colleague => {
+                                                    amountSpent = amountSpent + colleague.amountSpent
                                                 })
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="9" className="text-center"> No Expense Found </td>
+                                                return (
+                                                <tr key={expense._id}>
+                                                    <td>{ index + 1 }</td>
+                                                    <td>{ expense.user.fullname }</td>
+                                                    <td>{ expense.createdAt }</td>
+                                                    <td>{ expense.budget }</td>
+                                                    <td>{ amountSpent }</td>
+                                                    <td>{ expense.category.name }</td>
+                                                    <td>{ expense.reason }</td>
+                                                    <td>{ expense.isApproved ? <span className="text-success">Approved</span> : <span className="text-danger">Not Approved</span> }</td>
+                                                    <td>
+                                                        <Link title="Edit" to={`${route}expenses/edit/${expense._id}`}>
+                                                            <i className="fa fa-pencil text-dark"></i>
+                                                        </Link>
+                                                        <Link title="View" to={`${route}expenses/view/${expense._id}`}>
+                                                            <i className="fa fa-book text-primary"></i>
+                                                        </Link>
+                                                        { this.state.roles.includes('admin') ? 
+                                                            <button title="delete" 
+                                                                    onClick={() => {
+                                                                        this.handleDelete(expense._id)
+                                                                    }}
+                                                            >   
+                                                            {
+                                                                this.state.deleteLoading.id === expense._id && this.state.deleteLoading.status ? <i className="fa fa-spin text-danger fa-spinner"></i> : <i className="fa fa-trash text-danger"></i>
+                                                            }
+                                                            </button> : ''
+                                                        }
+                                                    </td>
                                                 </tr>
-                                            )
-                                        }
+                                                )
+                                            })
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="9" className="text-center"> No Expense Found </td>
+                                            </tr>
+                                        )}
                                         
                                     </tbody>
                                 </table>

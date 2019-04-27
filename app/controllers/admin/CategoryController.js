@@ -5,7 +5,7 @@ const router = express.Router()
 const { Category } = require("../../models/Category")
 
 const { userAuth } = require("../../middlewares/auth")
-const { adminAccess } = require("../../middlewares/access")
+const { adminAccess, superAdminAccess } = require("../../middlewares/access")
 
 //localhost:3005/admin/categories
 router.get("/", userAuth, function(req,res){
@@ -57,7 +57,7 @@ router.put("/:id", userAuth, adminAccess, function(req,res){
 })
 
 //localhost:3005/admin/categories/:id
-router.delete("/:id", userAuth, adminAccess, function(req,res){
+router.delete("/:id", userAuth, superAdminAccess, function(req,res){
     const id = req.params.id
     Category.findByIdAndDelete(id)
         .then(function(category){

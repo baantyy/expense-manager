@@ -13,20 +13,19 @@ class EditExpense extends React.Component{
             errors: {},
             isLoaded: false,
             expense: {},
-            role: ''
+            roles: JSON.parse(localStorage.getItem('roles'))
         }
     }
 
     componentWillMount(){
-        const role = localStorage.getItem('role')
-        this.setState(() => ({ role }))
-    }
+        document.title = "Edit Expense"
+        !this.state.roles && this.props.history.push('/login')
+	}
 
     componentDidMount(){
-        document.title = "Edit Expense"
         const id = this.props.match.params.id
         const token = localStorage.getItem('token')
-        const api = this.state.role === 'admin' ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
+        const api = this.state.roles.includes('admin') ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
         axios.get(api, { headers: { 'x-auth': token }})
             .then(res => {
                 this.setState(() => ({
@@ -42,7 +41,7 @@ class EditExpense extends React.Component{
         }))
         const id = this.props.match.params.id
         const token = localStorage.getItem('token')
-        const api = this.state.role === 'admin' ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
+        const api = this.state.roles.includes('admin') ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
         axios.put(api, formData, {
                 headers: { 'x-auth': token }
             })
@@ -53,13 +52,13 @@ class EditExpense extends React.Component{
                         errors: res.data.errors
                     }))
                 }else{
-                    this.state.role === 'admin' ? this.props.history.push(`/admin/expenses/view/${id}`) : this.props.history.push(`/expenses/view/${id}`)
+                    this.state.roles.includes('admin') ? this.props.history.push(`/admin/expenses/view/${id}`) : this.props.history.push(`/expenses/view/${id}`)
                 }
             })
     }
 
     render(){
-        const route = this.state.role === 'admin' ? '/admin/' : '/'
+        const route = this.state.roles.includes('admin') ? '/admin/' : '/'
         return (
             <div className="expenses">
                 <div className="headTitle">
@@ -78,13 +77,13 @@ class EditExpense extends React.Component{
                 </div>
                 { this.state.isLoaded ? 
                     <div className="container">
-                        { this.state.role === 'admin' ?
+                        { this.state.roles.includes('admin') ?
                             <ExpenseForm title="Update" 
                                     handleSubmit={this.handleSubmit}
                                     submitLoading={this.state.submitLoading} 
                                     errors={this.state.errors}
                                     expense={this.state.expense}
-                                    role={this.state.role}
+                                    roles={this.state.roles}
                             /> : 
                             <EmployeeForm handleSubmit={this.handleSubmit}
                                     submitLoading={this.state.submitLoading} 

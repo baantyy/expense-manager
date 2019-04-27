@@ -9,20 +9,19 @@ class OneExpense extends React.Component{
         this.state = {
             isLoaded: false,
             expense: {},
-            role: ''
+            roles: JSON.parse(localStorage.getItem('roles'))
         }
     }
 
-    componentWillMount(){
-        const role = localStorage.getItem('role')
-        this.setState(() => ({ role }))
-    }
+	componentWillMount(){
+        document.title = "View Expense"
+		!this.state.roles && this.props.history.push('/login')
+	}
 
     componentDidMount(){
-        document.title = "View Expense"
         const token = localStorage.getItem('token')
         const id = this.props.match.params.id
-        const api = this.state.role === 'admin' ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
+        const api = this.state.roles.includes('admin') ? `/api/admin/expenses/${id}` : `/api/expenses/${id}`
         axios.get(api,{ headers: { 'x-auth': token }})
             .then(res => {
                 this.setState(() => ({
@@ -36,7 +35,7 @@ class OneExpense extends React.Component{
         const id = this.props.match.params.id
         const { budget, createdAt, user, category, reason, isApproved, colleagues } = this.state.expense
         let amountSpent = 0
-        const route = this.state.role === 'admin' ? '/admin/' : '/'
+        const route = this.state.roles.includes('admin') ? '/admin/' : '/'
         if(this.state.isLoaded){
             this.state.expense.colleagues.forEach(colleague => {
                 amountSpent = amountSpent + colleague.amountSpent
@@ -102,7 +101,7 @@ class OneExpense extends React.Component{
                                     </table>
                                 </div>
                             </div>
-                        </div> : <div className="text-center mt-5 mb-5"><Spinner /></div>  }
+                        </div> : <div className="text-center mt-5 mb-5"><Spinner /></div> }
                 </div>
             </div>
         )

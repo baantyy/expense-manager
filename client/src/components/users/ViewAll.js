@@ -22,8 +22,15 @@ class ViewAllUsers extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         document.title = "All Users"
+		const roles = JSON.parse(localStorage.getItem('roles'))
+        !roles ? this.props.history.push('/login') : !roles.includes('admin') && this.props.history.push('/login')
+        this.setState(() => ({ roles }))
+	}
+
+    componentDidMount(){
+        const roles = JSON.parse(localStorage.getItem('roles'))
         const token = localStorage.getItem('token')
         axios.get(`/api/admin/users`,{
                 headers: {
@@ -32,8 +39,8 @@ class ViewAllUsers extends React.Component{
             })
             .then(res => {
                 this.setState(() => ({
-                    users: res.data,
-                    filteredUsers: res.data,
+                    users: !roles.includes('superadmin') ? res.data.filter(user => !user.roles.includes('superadmin')) : res.data,
+                    filteredUsers: !roles.includes('superadmin') ? res.data.filter(user => !user.roles.includes('superadmin')) : res.data,
                     isLoaded: true
                 }))
             })
@@ -48,41 +55,46 @@ class ViewAllUsers extends React.Component{
     }
 
     handleDelete = (id) => {
-        if(window.confirm("Are you sure")){
-            this.setState(() => ({
-                deleteLoading: {
-                    id, status: true
-                }
-            }))
-            const token = localStorage.getItem('token')
-            axios.delete(`/api/admin/users/${id}`,{
-                    headers: {
-                        'x-auth': token
+        const roles = JSON.parse(localStorage.getItem('roles'))
+        if(roles.includes('superadmin')){
+            if(window.confirm("Are you sure")){
+                this.setState(() => ({
+                    deleteLoading: {
+                        id, status: true
                     }
-                })
-                .then(res => {
-                    if(res.data.user){
-                        this.setState((prevState) => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            users: prevState.users.filter(user => user._id !== id),
-                            filteredUsers: prevState.filteredUsers.filter(user => user._id !== id)
-                        }))
-                    }else{
-                        this.setState(() => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            formMsg: {
-                                css: 'danger',
-                                msg: 'Something Went Wrong !'
-                            }
-                        }))
-                    }
-                })
+                }))
+                const token = localStorage.getItem('token')
+                axios.delete(`/api/admin/users/${id}`,{
+                        headers: {
+                            'x-auth': token
+                        }
+                    })
+                    .then(res => {
+                        if(res.data.user){
+                            this.setState((prevState) => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                users: prevState.users.filter(user => user._id !== id),
+                                filteredUsers: prevState.filteredUsers.filter(user => user._id !== id)
+                            }))
+                        }else{
+                            this.setState(() => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                formMsg: {
+                                    css: 'danger',
+                                    msg: 'Something Went Wrong !'
+                                }
+                            }))
+                        }
+                    })
+            }
+        }else{
+            window.alert(`You don't have permission to delete`)
         }
     }
 

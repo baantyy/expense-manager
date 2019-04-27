@@ -27,7 +27,7 @@ class App extends Component {
     super(props) 
     this.state = {
       isAuthenticated: false,
-      role: '',
+      roles: [],
       formStatus: {
         status: false,
         msg: '',
@@ -37,12 +37,12 @@ class App extends Component {
   }
 
   componentDidMount(){
-    const token = localStorage.getItem('token')
-    const role = localStorage.getItem('role')
-    if(token && role){
+    const token = localStorage.getItem('token')    
+    const roles = JSON.parse(localStorage.getItem('roles'))
+    if(token && roles){
       this.setState(() => ({
         isAuthenticated: true,
-        role: role
+        roles: roles
       }))
     }
   }
@@ -115,7 +115,7 @@ class App extends Component {
                     }))
                     localStorage.removeItem('token')
                     localStorage.removeItem('id')
-                    localStorage.removeItem('role')
+                    localStorage.removeItem('roles')
                   })
               }} />
 

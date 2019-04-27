@@ -22,8 +22,13 @@ class ViewAllCategories extends React.Component{
         }
     }
 
-    componentDidMount(){
+	componentWillMount(){
         document.title = "All Categories"
+		const roles = JSON.parse(localStorage.getItem('roles'))
+		!roles ? this.props.history.push('/login') : !roles.includes('admin') && this.props.history.push('/login')
+	}
+
+    componentDidMount(){
         const token = localStorage.getItem('token')
         axios.get(`/api/admin/categories`,{
                 headers: {
@@ -48,41 +53,46 @@ class ViewAllCategories extends React.Component{
     }
 
     handleDelete = (id) => {
-        if(window.confirm("Are you sure")){
-            this.setState(() => ({
-                deleteLoading: {
-                    id, status: true
-                }
-            }))
-            const token = localStorage.getItem('token')
-            axios.delete(`/api/admin/categories/${id}`,{
-                    headers: {
-                        'x-auth': token
+        const roles = JSON.parse(localStorage.getItem('roles'))
+        if(roles.includes('superadmin')){
+            if(window.confirm("Are you sure")){
+                this.setState(() => ({
+                    deleteLoading: {
+                        id, status: true
                     }
-                })
-                .then(res => {
-                    if(res.data.category){
-                        this.setState((prevState) => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            categories: prevState.categories.filter(category => category._id !== id),
-                            filteredCategories: prevState.filteredCategories.filter(category => category._id !== id)
-                        }))
-                    }else{
-                        this.setState(() => ({
-                            deleteLoading: {
-                                id: '',
-                                status: false
-                            },
-                            formMsg: {
-                                css: 'danger',
-                                msg: 'Something Went Wrong !'
-                            }
-                        }))
-                    }
-                })
+                }))
+                const token = localStorage.getItem('token')
+                axios.delete(`/api/admin/categories/${id}`,{
+                        headers: {
+                            'x-auth': token
+                        }
+                    })
+                    .then(res => {
+                        if(res.data.category){
+                            this.setState((prevState) => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                categories: prevState.categories.filter(category => category._id !== id),
+                                filteredCategories: prevState.filteredCategories.filter(category => category._id !== id)
+                            }))
+                        }else{
+                            this.setState(() => ({
+                                deleteLoading: {
+                                    id: '',
+                                    status: false
+                                },
+                                formMsg: {
+                                    css: 'danger',
+                                    msg: 'Something Went Wrong !'
+                                }
+                            }))
+                        }
+                    })
+            }
+        }else{
+            window.alert(`You don't have permission to delete`)
         }
     }
 

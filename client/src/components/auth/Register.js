@@ -48,7 +48,7 @@ class Register extends React.Component {
             })
     }
 
-    componentDidMount(){
+    componentWillMount(){
         document.title = "Register"
     }
 

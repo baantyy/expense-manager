@@ -17,28 +17,33 @@ class EmployeeForm extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault()
         const id = localStorage.getItem('id')
+        const token = localStorage.getItem('token')
 
-        const colleagues = this.props.expense.colleagues
-        var totalSpent = 0
+        axios.get(`/api/expenses/${this.props.expense._id}`,{ headers: { 'x-auth': token }})
+            .then(res => {
+                
+                const colleagues = res.data.colleagues
+                var totalSpent = 0
 
-        for(let i = 0; i < colleagues.length; i++){
-            if(String(colleagues[i].user._id) !== String(id)){
-                totalSpent = totalSpent + colleagues[i].amountSpent
-            }else{
-                totalSpent = totalSpent + Number(this.state.amountSpent)
-            }
-        }
+                for(let i = 0; i < colleagues.length; i++){
+                    if(String(colleagues[i].user._id) !== String(id)){
+                        totalSpent = totalSpent + colleagues[i].amountSpent
+                    }else{
+                        totalSpent = totalSpent + Number(this.state.amountSpent)
+                    }
+                }
 
-        if(this.props.expense.budget === 0 || this.props.expense.budget >= totalSpent){
-            const formData = new FormData()
-            formData.append('receipt', this.state.receipt ? this.state.receipt : this.state.receiptImg)
-            formData.append('amountSpent', this.state.amountSpent)
-            this.props.handleSubmit(formData)
-        }else{
-            this.setState(() => ({
-                error: `total spent can't exceed ${this.props.expense.budget}`
-            }))
-        }
+                if(this.props.expense.budget === 0 || this.props.expense.budget >= totalSpent){
+                    const formData = new FormData()
+                    formData.append('receipt', this.state.receipt ? this.state.receipt : this.state.receiptImg)
+                    formData.append('amountSpent', this.state.amountSpent)
+                    this.props.handleSubmit(formData)
+                }else{
+                    this.setState(() => ({
+                        error: `total spent can't exceed ${this.props.expense.budget}`
+                    }))
+                }
+            })
     }
 
     handleChange = (e) => {

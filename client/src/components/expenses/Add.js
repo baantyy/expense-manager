@@ -14,25 +14,21 @@ class AddExpense extends React.Component{
                 reason: '',
                 user: ''
             },
-            role: ''
+            roles: JSON.parse(localStorage.getItem('roles'))
         }
     }
 
-    componentWillMount(){
-        const role = localStorage.getItem('role')
-        this.setState(() => ({ role }))
-    }
-
-    componentDidMount(){
+	componentWillMount(){
         document.title = "Add Expense"
-    }
+        !this.state.roles && this.props.history.push('/login')
+	}
 
     handleSubmit = (formData) => {
         this.setState(() => ({
             submitLoading: true
         }))
         const token = localStorage.getItem('token')
-        const api = this.state.role === 'admin' ? `/api/admin/expenses` : `/api/expenses`
+        const api = this.state.roles.includes('admin') ? `/api/admin/expenses` : `/api/expenses`
         axios.post(api, formData, {
                 headers: { 'x-auth': token }
             })
@@ -44,7 +40,7 @@ class AddExpense extends React.Component{
                         submitLoading: false
                     }))
                 }else{
-                    this.state.role === 'admin' ? this.props.history.push('/admin/expenses') : this.props.history.push('/expenses')
+                    this.state.roles.includes('admin') ? this.props.history.push('/admin/expenses') : this.props.history.push('/expenses')
                 }
             })
             .catch(err => {
@@ -53,7 +49,7 @@ class AddExpense extends React.Component{
     }
 
     render(){
-        const route = this.state.role === 'admin' ? '/admin/' : '/'
+        const route = this.state.roles.includes('admin') ? '/admin/' : '/'
         return (
             <div className="expenses">
                 <div className="headTitle">
@@ -75,7 +71,7 @@ class AddExpense extends React.Component{
                             handleSubmit={this.handleSubmit}
                             submitLoading={this.state.submitLoading} 
                             errors={this.state.errors}
-                            role={this.state.role}
+                            roles={this.state.roles}
                     />
                 </div>
             </div>

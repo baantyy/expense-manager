@@ -14,9 +14,11 @@ class AddCategory extends React.Component{
         }
     }
 
-    componentDidMount(){
+	componentWillMount(){
         document.title = "Add Category"
-    }
+		const roles = JSON.parse(localStorage.getItem('roles'))
+		!roles ? this.props.history.push('/login') : !roles.includes('admin') && this.props.history.push('/login')
+	}
 
     handleSubmit = (formData) => {
         this.setState(() => ({

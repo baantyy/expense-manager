@@ -42,11 +42,10 @@ class Login extends React.Component {
                 } else {
                     localStorage.setItem('token', response.data.token)
                     localStorage.setItem('id', response.data.id)
-                    if(response.data.roles.includes("admin")){
-                        localStorage.setItem('role', 'admin')
+                    localStorage.setItem('roles', JSON.stringify(response.data.roles))
+                    if(response.data.roles.includes("admin")){                        
                         this.props.history.push('/admin/expenses')
-                    }else{                        
-                        localStorage.setItem('role', 'employer')
+                    }else{
                         this.props.history.push('/expenses')
                     }
                     this.props.handleAuthentication(true)
@@ -61,45 +60,61 @@ class Login extends React.Component {
         }))
     }
 
-    componentDidMount(){
+    componentWillMount(){
         document.title = "Login"
     }
 
     render() {
         return (
-            <div className="loginBlock">
-                <div>
-                    <h2>Login </h2>
-                    <form onSubmit={this.handleSubmit}>
+            <React.Fragment>
+                <div className="loginBlock">
+                    <div>
+                        <h2>Login </h2>
+                        <form onSubmit={this.handleSubmit}>
+                            
+                            <input type="text"
+                                name="username_email"
+                                value={this.state.username_email}
+                                onChange={this.handleChange}
+                                className="form-control"
+                                placeholder="Username / Email"
+                            />
                         
-                        <input type="text"
-                            name="username_email"
-                            value={this.state.username_email}
-                            onChange={this.handleChange}
-                            className="form-control"
-                            placeholder="Username / Email"
-                        />
-                    
-                        <input type="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            className="form-control"
-                            placeholder="Password"
-                        />      
+                            <input type="password"
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                className="form-control"
+                                placeholder="Password"
+                            />      
 
-                        { this.state.formStatus.status && <p className={`formStatus text-${this.state.formStatus.css}`}>{ this.state.formStatus.msg }</p> }
+                            { this.state.formStatus.status && <p className={`formStatus text-${this.state.formStatus.css}`}>{ this.state.formStatus.msg }</p> }
 
-                        <div className="loginFooter">
-                            <button type="submit" className="btn">
-                                {this.state.submitBtn === 'Login' ? 'Login' : <i className="fa fa-spin fa-spinner"></i>}
-                            </button>
-                            <Link to="/register">Create an account</Link>
-                        </div>
-
-                    </form>
+                            <div className="loginFooter">
+                                <button type="submit" className="btn">
+                                    {this.state.submitBtn === 'Login' ? 'Login' : <i className="fa fa-spin fa-spinner"></i>}
+                                </button>
+                                <Link to="/register">Create an account</Link>
+                            </div>
+                        </form>
+                        
+                        {/* <div className="loginInfo">
+                            <h2>Admin</h2>
+                            <ul>
+                                <li><b>Username</b>: admin</li>
+                                <li><b>Email</b>: admin@gmail.com</li>
+                                <li><b>Password</b>: admin123</li>
+                            </ul>
+                            <h2>Employee</h2>
+                            <ul>
+                                <li><b>Username</b>: user</li>
+                                <li><b>Email</b>: user@gmail.com</li>
+                                <li><b>Password</b>: user123</li>
+                            </ul>
+                        </div> */}
+                    </div>
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }

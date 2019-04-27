@@ -80,7 +80,7 @@ userSchema.pre("save",function(next){
             return User.countDocuments()
                 .then(function(count){
                     if(count == 0){
-                        user.roles = ["admin"]
+                        user.roles = ["admin","superadmin"]
                     }
                 })
         }

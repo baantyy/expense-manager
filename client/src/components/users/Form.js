@@ -8,7 +8,7 @@ class UserForm extends React.Component{
             username: props.user ? props.user.username : '',
             email: props.user ? props.user.email : '',
             password: '',
-            roles: props.user ? props.user.roles[0] : 'employee',
+            roles: props.user ? props.user.roles.includes('superadmin') ? 'superadmin' : props.user.roles[0] : 'employee',
             allowAccess: props.user ? props.user.allowAccess : true,
             errors: {}
         }
@@ -124,6 +124,7 @@ class UserForm extends React.Component{
                                     value={this.state.roles} >
                                 <option value="employee">Employee</option>
                                 <option value="admin">Admin</option>
+                                { JSON.parse(localStorage.getItem('roles')).includes('superadmin') && <option value="superadmin">Super Admin</option> }
                             </select>
                         </div>
                         <div className="col-md-5">

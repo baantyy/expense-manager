@@ -7,7 +7,7 @@ class Navbar extends React.Component{
     }
 
     render(){
-        const role = localStorage.getItem('role')
+        const roles = JSON.parse(localStorage.getItem('roles'))
         return (
             <React.Fragment>
                 { this.props.isAuthenticated ? (
@@ -24,7 +24,7 @@ class Navbar extends React.Component{
                             </button>
                             <div className="collapse navbar-collapse" id="navbarMenu">
                                 <ul className="navbar-nav ml-auto">
-                                    { this.props.isAuthenticated ? role === 'admin' ? 
+                                    { this.props.isAuthenticated ? roles.includes('admin') ? 
                                         <React.Fragment>
                                             <li className="nav-item">
                                                 <Link to="/admin/expenses" className="nav-link">Expenses</Link>

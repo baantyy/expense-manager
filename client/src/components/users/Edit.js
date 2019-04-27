@@ -22,8 +22,13 @@ class EditUser extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         document.title = "Edit User"
+		const roles = JSON.parse(localStorage.getItem('roles'))
+		!roles ? this.props.history.push('/login') : !roles.includes('admin') && this.props.history.push('/login')
+	}
+
+    componentDidMount(){
         const id = this.props.match.params.id
         const token = localStorage.getItem('token')
         axios.get(`/api/admin/users/${id}`, {
