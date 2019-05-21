@@ -60,21 +60,49 @@ button.navbar-toggler span{
 }
 .loginBlock > div{
   width: 100%;
-  max-width: 450px;
+  max-width: 690px;
   box-shadow: 0 0 20px 0 #dddddd;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #1e2536;
-  padding: 70px;
+  background: white;
   border-radius: 5px;
+  display: table;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.loginBlock > div > div{
+  display: table-cell;
+  width: 50%;
+  vertical-align: top;
+  padding: 50px;
+}
+.loginBlock .left{
+  background: white;
+  padding-bottom: 30px;
+}
+.loginBlock .left h2{
+  color: #1e2536;
+  text-align: left;
+  font-size: 20px;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.loginBlock .left ul{
+  margin-bottom: 20px;
+  padding-left: 17px;
+  font-size: 15px;
+  line-height: 30px;
+}
+.loginBlock .left li b{
+  display: inline-block;
+  width: 80px;
 }
 .loginBlock .right{
-  position: relative;
-  top: 50%;
-  transform: translate(0, -50%);
-  padding: 0 30px 0 0;
+  background: #1e2536;
 }
 .loginBlock h2{
   font-size: 30px;
@@ -120,35 +148,9 @@ button.navbar-toggler span{
 .formStatus{
   text-transform: capitalize;
 }
-.loginInfo{
-  position: absolute;
-  background: #f2f2f2;
-  padding: 50px 50px 0;
-  z-index: 1;
-  top: 50%;
-  transform: translate(0,-50%);
-}
-.loginInfo h2{
-  font-size: 20px;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  font-weight: bold;
-  display: inline-block;
-  color: black;
-  border-bottom: 2px solid black;
-}
-.loginInfo ul{
-  margin: 0 0 50px;
-  list-style: none;
-  padding: 0;
-  font-size: 15px;
-  line-height: 25px;
-  display: block;
-}
-.loginInfo b{
-  display: inline-block;
-  min-width: 80px;
-}
+
+
+
 /*end login + register*/
 
 /*start expenses*/
@@ -359,18 +361,27 @@ form li.editCol span {
     margin-bottom: 30px;
   }
 }
-@media (max-width: 576px){
+@media (max-width: 768px){  
   .loginBlock > div {
     position: static;
     top: 0;
     left: 0;
     transform: translate(0, 0);
-    padding: 50px;
-    margin: auto;
+    margin: 0 auto;
+    display: block;
+    box-shadow: none;
+    border-radius: 0;
   }
   .loginBlock {
-    padding: 75px 15px 0;
+    min-height: auto;
   }
+  .loginBlock > div > div {
+    display: block;
+    width: 100%;
+    padding: 40px;
+  }
+}
+@media (max-width: 576px){
   .loginBlock button {
     padding: 5px 20px;
   }

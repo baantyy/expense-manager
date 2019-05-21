@@ -69,36 +69,7 @@ class Login extends React.Component {
             <React.Fragment>
                 <div className="loginBlock">
                     <div>
-                        <h2>Login </h2>
-                        <form onSubmit={this.handleSubmit}>
-                            
-                            <input type="text"
-                                name="username_email"
-                                value={this.state.username_email}
-                                onChange={this.handleChange}
-                                className="form-control"
-                                placeholder="Username / Email"
-                            />
-                        
-                            <input type="password"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.handleChange}
-                                className="form-control"
-                                placeholder="Password"
-                            />      
-
-                            { this.state.formStatus.status && <p className={`formStatus text-${this.state.formStatus.css}`}>{ this.state.formStatus.msg }</p> }
-
-                            <div className="loginFooter">
-                                <button type="submit" className="btn">
-                                    {this.state.submitBtn === 'Login' ? 'Login' : <i className="fa fa-spin fa-spinner"></i>}
-                                </button>
-                                <Link to="/register">Create an account</Link>
-                            </div>
-                        </form>
-                        
-                        {/* <div className="loginInfo">
+                        <div className="left">
                             <h2>Admin</h2>
                             <ul>
                                 <li><b>Username</b>: admin</li>
@@ -111,7 +82,37 @@ class Login extends React.Component {
                                 <li><b>Email</b>: user@gmail.com</li>
                                 <li><b>Password</b>: user123</li>
                             </ul>
-                        </div> */}
+                        </div>
+                        <div className="right">
+                            <h2>Login </h2>
+                            <form onSubmit={this.handleSubmit}>
+                                
+                                <input type="text"
+                                    name="username_email"
+                                    value={this.state.username_email}
+                                    onChange={this.handleChange}
+                                    className="form-control"
+                                    placeholder="Username / Email"
+                                />
+
+                                <input type="password"
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    className="form-control"
+                                    placeholder="Password"
+                                />      
+
+                                { this.state.formStatus.status && <p className={`formStatus text-${this.state.formStatus.css}`}>{ this.state.formStatus.msg }</p> }
+
+                                <div className="loginFooter">
+                                    <button type="submit" className="btn">
+                                        {this.state.submitBtn === 'Login' ? 'Login' : <i className="fa fa-spin fa-spinner"></i>}
+                                    </button>
+                                    <Link to="/register">Create an account</Link>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </React.Fragment>
